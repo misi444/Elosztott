@@ -1,4 +1,3 @@
-# Elosztott
+asdads
 
-asdasd
-na most hátha jó lesz
+na végre ez is működik

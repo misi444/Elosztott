@@ -1,6 +1,4 @@
 <%@include file="header.jsp"%>
-
-
 		<title>Users</title>
 	</head>
 	

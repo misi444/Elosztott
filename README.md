@@ -1,3 +1,3 @@
-asdads
+### What is this repository for? ###
 
-na végre ez is működik
+Demonstrates spring-form JSP Tag Library and Hibernate validator usage.

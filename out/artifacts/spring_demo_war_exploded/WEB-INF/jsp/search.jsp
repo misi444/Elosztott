@@ -29,7 +29,7 @@
 							</c:forEach>
 						</td>
 						<td>${user.gender}</td>
-						<td><a href="/admin/search/<c:out value="${user.userId}"/>">DELETE</a></td>
+						<td><a href="/spring-demo/admin/search/<c:out value="${user.userId}"/>">DELETE</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>

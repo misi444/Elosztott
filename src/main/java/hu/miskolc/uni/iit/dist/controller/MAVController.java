@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -58,11 +59,20 @@ public class MAVController
 		return modelAndView;
 	}
 	
+	@GetMapping(value=SEARCH + "/{userId}")
+	public ModelAndView deleteUser(@PathVariable("userId") String userId)
+	{
+		ModelAndView modelAndView = new ModelAndView(SEARCH);
+		userDao.deleteUser(userId);
+		modelAndView.setViewName("redirect:" + BASE_URL + SEARCH);
+		return modelAndView;
+	}
+	
 	@GetMapping(value=USER_ORIGINATION)
 	public ModelAndView preload()
 	{
 		ModelAndView modelAndView = new ModelAndView(USER_ORIGINATION);
-		rersetForm(modelAndView);
+		resetForm(modelAndView);
 		return modelAndView;
 	}
 	
@@ -75,7 +85,7 @@ public class MAVController
 		{
 			List<String> errors = Validator.validate(bindingResult, "userName", "creditBalance", "qualification", "gender", "favouriteColor");
 			modelAndView.addObject("statii", errors);
-			rersetForm(modelAndView);
+			resetForm(modelAndView);
 			return modelAndView;
 		}
 		
@@ -85,7 +95,7 @@ public class MAVController
 		return modelAndView;
 	}
 	
-	private static void rersetForm(ModelAndView modelAndView)
+	private static void resetForm(ModelAndView modelAndView)
 	{
 		final User user = new User();
 		user.setUserName("");

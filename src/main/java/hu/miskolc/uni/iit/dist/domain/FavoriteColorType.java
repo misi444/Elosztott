@@ -6,10 +6,6 @@ public class FavoriteColorType
 	private String colorValue;
 	private boolean enabled;
 	
-	public FavoriteColorType()
-	{
-	}
-	
 	public FavoriteColorType(String colorCode, String colorValue, boolean enabled)
 	{
 		super();

@@ -6,6 +6,7 @@ import hu.miskolc.uni.iit.dist.domain.Gender;
 
 public class GenderEnumConverter extends PropertyEditorSupport
 {
+
 	@Override
 	public void setAsText(String text) throws IllegalArgumentException
 	{
@@ -20,4 +21,5 @@ public class GenderEnumConverter extends PropertyEditorSupport
 			return;
 		}
 	}
+
 }

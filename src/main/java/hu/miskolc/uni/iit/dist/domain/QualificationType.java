@@ -5,10 +5,6 @@ public class QualificationType
 	private String key;
 	private String value;
 	
-	public QualificationType()
-	{
-	}
-	
 	public QualificationType(String key, String value)
 	{
 		super();

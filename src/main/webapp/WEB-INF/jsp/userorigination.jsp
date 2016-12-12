@@ -4,6 +4,11 @@
 	</head>
 	
 	<body>
+	
+		<c:if test="${pageContext.request.remoteUser != null}">
+			<h2>Welcome : ${pageContext.request.remoteUser}</h2>
+		</c:if>
+	
 		<c:forEach var="status" items="${statii}">
 			<p><b>${status}</b></p>
 		</c:forEach>

@@ -48,10 +48,10 @@ public class MAVController
 		AVAILABLEGENDERS.add("MALE");
 		AVAILABLEGENDERS.add("FEMALE");
 	}
-
+	
 	@Autowired
 	private UserDao userDao;
-
+	
 	@GetMapping(value=SEARCH)
 	public ModelAndView loadStatusPage()
 	{

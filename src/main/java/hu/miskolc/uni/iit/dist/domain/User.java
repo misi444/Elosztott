@@ -34,6 +34,7 @@ public class User
 	@NotEmpty
 	private List<String> favouriteColor;
 	
+	
 	public User()
 	{
 		this.userId = UUID.randomUUID().toString();

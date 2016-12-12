@@ -1,10 +1,15 @@
 <%@include file="header.jsp"%>
 
 
-		<title>User Statii</title>
+		<title>Users</title>
 	</head>
 	
 	<body>
+		
+		<c:if test="${pageContext.request.remoteUser != null}">
+			<h2>Welcome : ${pageContext.request.remoteUser}</h2>
+		</c:if>
+		
 		<a href="${useroriginationURL}">Add new user</a> <br />
 		
 		<h2>Registered users: </h2>

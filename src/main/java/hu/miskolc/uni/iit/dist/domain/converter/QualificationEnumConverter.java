@@ -6,6 +6,7 @@ import hu.miskolc.uni.iit.dist.domain.Qualification;
 
 public class QualificationEnumConverter extends PropertyEditorSupport
 {
+
 	@Override
 	public void setAsText(String text) throws IllegalArgumentException
 	{
@@ -25,4 +26,5 @@ public class QualificationEnumConverter extends PropertyEditorSupport
 			return;
 		}
 	}
+
 }

@@ -1,3 +1,3 @@
 ### What is this repository for? ###
 
-Demonstrates Spring localization and theme features.
+Demonstrates Spring REST API design with AngularJS client and Material design.

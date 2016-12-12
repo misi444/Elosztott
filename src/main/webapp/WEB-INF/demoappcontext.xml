@@ -8,7 +8,8 @@
 
 	<context:component-scan base-package="hu.miskolc.uni.iit.dist" />
 	<context:annotation-config></context:annotation-config>
-	<mvc:annotation-driven></mvc:annotation-driven>
+	<mvc:annotation-driven />
+	<mvc:resources mapping="/api/**" location="/webresources/" /> <!-- static web resources mapping for REST based controller -->
 	<mvc:resources mapping="/admin/**" location="/webresources/" /> <!-- static web resources mapping for Form based controller -->
 	
 	<bean

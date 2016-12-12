@@ -34,7 +34,6 @@ public class User
 	@NotEmpty
 	private List<String> favouriteColor;
 	
-	
 	public User()
 	{
 		this.userId = UUID.randomUUID().toString();
@@ -102,5 +101,13 @@ public class User
 	{
 		this.favouriteColor = favouriteColor;
 		return this;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "User [userId=" + userId + ", userName=" + userName + ", creditBalance=" + creditBalance
+				+ ", qualification=" + qualification + ", gender=" + gender + ", favouriteColor=" + favouriteColor
+				+ "]";
 	}
 }

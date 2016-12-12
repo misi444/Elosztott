@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import hu.miskolc.uni.iit.dist.domain.User;
+import hu.miskolc.uni.iit.dist.exception.InvalidParameterException;
 
 public class UserDaoImpl implements UserDao
 {
@@ -40,7 +41,7 @@ public class UserDaoImpl implements UserDao
 	}
 
 	@Override
-	public void deleteUser(String userId)
+	public void deleteUser(String userId) throws InvalidParameterException
 	{
 		synchronized (lock)
 		{
@@ -54,5 +55,6 @@ public class UserDaoImpl implements UserDao
 				}
 			}
 		}
+		throw new InvalidParameterException("WARNING: No user found with given id("+userId+").");
 	}
 }

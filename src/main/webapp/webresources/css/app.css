@@ -1,0 +1,13 @@
+@CHARSET "UTF-8";
+input.ng-invalid {
+	background-color: #d20210;
+	color: #fcc23c;
+}
+input.ng-valid {
+	background-color: #377f4f;
+	color: #f0f8ff;
+}
+.menuStyle {
+	background-color : #fcc23c;
+	
+}

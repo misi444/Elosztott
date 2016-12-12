@@ -1,9 +1,0 @@
-@CHARSET "UTF-8";
-body {
-	background: #555555;
-	color: #faebd7;
-}
-
-tbody > tr > td {
-	color: #555555;
-}

@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import hu.miskolc.uni.iit.dist.dao.UserDao;
 import hu.miskolc.uni.iit.dist.domain.Qualification;
 import hu.miskolc.uni.iit.dist.domain.User;
+import hu.miskolc.uni.iit.dist.exception.InvalidParameterException;
 
 @Controller
 @RequestMapping(value=MAVController.BASE_URL)
@@ -47,10 +48,10 @@ public class MAVController
 		AVAILABLEGENDERS.add("MALE");
 		AVAILABLEGENDERS.add("FEMALE");
 	}
-	
+
 	@Autowired
 	private UserDao userDao;
-	
+
 	@GetMapping(value=SEARCH)
 	public ModelAndView loadStatusPage()
 	{
@@ -63,7 +64,13 @@ public class MAVController
 	public ModelAndView deleteUser(@PathVariable("userId") String userId)
 	{
 		ModelAndView modelAndView = new ModelAndView(SEARCH);
-		userDao.deleteUser(userId);
+		try
+		{
+			userDao.deleteUser(userId);
+		} catch (InvalidParameterException e)
+		{
+			e.printStackTrace();
+		}
 		modelAndView.setViewName("redirect:" + BASE_URL + SEARCH);
 		return modelAndView;
 	}

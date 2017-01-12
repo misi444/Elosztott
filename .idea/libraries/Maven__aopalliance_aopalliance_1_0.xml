@@ -2,7 +2,6 @@
   <library name="Maven: aopalliance:aopalliance:1.0">
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/aopalliance/aopalliance/1.0/aopalliance-1.0.jar!/" />
-      <root url="file://D:/tomcat/apache-tomcat-8.5.9/lib" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$MAVEN_REPOSITORY$/aopalliance/aopalliance/1.0/aopalliance-1.0-javadoc.jar!/" />
@@ -10,6 +9,5 @@
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/aopalliance/aopalliance/1.0/aopalliance-1.0-sources.jar!/" />
     </SOURCES>
-    <jarDirectory url="file://D:/tomcat/apache-tomcat-8.5.9/lib" recursive="false" />
   </library>
 </component>

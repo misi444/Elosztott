@@ -7,7 +7,12 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import hu.miskolc.uni.iit.dist.gateway.Gateway;
+import hu.miskolc.uni.iit.dist.integration.SystemMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -48,7 +53,10 @@ public class MAVController
 		AVAILABLEGENDERS.add("MALE");
 		AVAILABLEGENDERS.add("FEMALE");
 	}
-	
+
+	@Autowired
+	private ApplicationContext context;
+
 	@Autowired
 	private UserDao userDao;
 	
@@ -67,6 +75,10 @@ public class MAVController
 		try
 		{
 			userDao.deleteUser(userId);
+//			org.springframework.messaging.MessageChannel channel = (MessageChannel) context.getBean("channel1");
+//			channel.send(new GenericMessage<SystemMessage>(new SystemMessage("User deleted: " + userId, 1)));
+            Gateway gateway = (Gateway) context.getBean("gateway");
+            gateway.send(new SystemMessage("User deleted: " + userId, 0)); // toggle between 0-2 for different message save locations
 		} catch (InvalidParameterException e)
 		{
 			e.printStackTrace();

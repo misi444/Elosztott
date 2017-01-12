@@ -5,7 +5,7 @@ public class FavoriteColorType
 	private String colorCode;
 	private String colorValue;
 	private boolean enabled;
-	
+
 	public FavoriteColorType()
 	{
 	}

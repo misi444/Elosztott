@@ -3,7 +3,7 @@ package hu.miskolc.uni.iit.dist.domain;
 public class SimpleRestReply
 {
 	private boolean isSuccess;
-
+	
 	public SimpleRestReply()
 	{
 	}

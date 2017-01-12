@@ -2,7 +2,6 @@
   <library name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.8.0">
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-annotations/2.8.0/jackson-annotations-2.8.0.jar!/" />
-      <root url="jar://D:/tomcat/apache-tomcat-8.5.9/bin/tomcat-juli.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-annotations/2.8.0/jackson-annotations-2.8.0-javadoc.jar!/" />

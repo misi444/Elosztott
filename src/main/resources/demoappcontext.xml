@@ -1,71 +1,131 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
-	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:file="http://www.springframework.org/schema/integration/file"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+	http://www.springframework.org/schema/integration http://springframework.org/schema/integration/spring-integration-4.3.xsd
+	http://www.springframework.org/schema/integration/file http://springframework.org/schema/integration/file/spring-integration-file-4.3.xsd ">
 
-	<context:component-scan base-package="hu.miskolc.uni.iit.dist" />
-	<context:annotation-config></context:annotation-config>
-	<mvc:annotation-driven />
-	<mvc:resources mapping="/api/**" location="/webresources/" /> <!-- static web resources mapping for REST based controller -->
-	<mvc:resources mapping="/admin/**" location="/webresources/" /> <!-- static web resources mapping for Form based controller -->
-	
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix">
-			<value>/WEB-INF/jsp/</value>
-		</property>
-		<property name="suffix">
-			<value>.jsp</value>
-		</property>
-	</bean>
+    <int:channel id="channel1"/>
+    <int:channel id="channel2"/>
+    <int:channel id="channel3"/>
+    <int:channel id="channel4"/>
+    <int:channel id="channel5"/>
+    <int:channel id="channel6"/>
+    <int:channel id="channel7"/>
+    <int:channel id="channel8"/>
+    <int:channel id="channel9"/>
+    <int:channel id="channel10"/>
+    <int:channel id="channel11"/>
+    <int:channel id="channel12"/>
+    <int:channel id="channel13"/>
+    <int:channel id="channel14"/>
+    <int:channel id="channel15"/>
 
-	<bean id="userDao" class="hu.miskolc.uni.iit.dist.dao.UserDaoImpl"></bean>
+    <bean id="shouter" class="hu.miskolc.uni.iit.dist.integration.Shouter"/>
 
-	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
-		<property name="customEditors">
-			<map>
-				<entry key="hu.miskolc.uni.iit.dist.domain.Gender" value="hu.miskolc.uni.iit.dist.domain.converter.GenderEnumConverter" />
-				<entry key="hu.miskolc.uni.iit.dist.domain.Qualification" value="hu.miskolc.uni.iit.dist.domain.converter.QualificationEnumConverter"/>
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="themeSource"
-		class="org.springframework.ui.context.support.ResourceBundleThemeSource">
-		<property name="basenamePrefix" value="theme-"/>
-	</bean>
+    <int:service-activator input-channel="channel1" output-channel="channel2" ref="shouter" method="shout1"/>
 
-	<bean id="themeResolver"
-		class="org.springframework.web.servlet.theme.SessionThemeResolver">
-		<property name="defaultThemeName" value="dark" />
-	</bean>
-	
-	<!-- Localization set up -->
-	<bean name="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"> 
-	    <property name="basename"> 
-	        <value>locale/messages</value>
-	    </property>
-	    <property name="defaultEncoding" value="UTF-8" />
-	</bean>
-	
-	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
-		<property name="defaultLocale" value="en" />
-		<property name="cookieName" value="locale" />
-		<property name="cookieMaxAge" value="3600" />
-	</bean>
-	
-	<mvc:interceptors>
-		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-			<property name="paramName" value="locale" />
-		</bean>
-		
-		<bean id="themeChangeInterceptor"
-			class="org.springframework.web.servlet.theme.ThemeChangeInterceptor">
-			<property name="paramName" value="theme"></property>
-		</bean>
-	</mvc:interceptors>
-	
+    <int:gateway id="gateway" service-interface="hu.miskolc.uni.iit.dist.gateway.Gateway" default-request-channel="channel1"/>
+
+    <int:enricher id="enricher" input-channel="channel3" output-channel="channel5" request-channel="channel4">
+        <int:property name="date" expression="new java.util.Date(payload.getDate().getTime() + 24*60*60*1000)" />
+    </int:enricher>
+    <bean id="customEnricher" class="hu.miskolc.uni.iit.dist.integration.CustomEnricher" />
+
+    <int:service-activator input-channel="channel4" ref="customEnricher"/>
+    <int:service-activator input-channel="channel5" output-channel="channel6" ref="shouter" method="shout2"/>
+    <file:outbound-channel-adapter channel="channel6" directory="D:/tmp6" />
+
+    <int:router id="router" input-channel="channel2" ref="customRouter" method="routeDecision" />
+    <bean id="customRouter" class="hu.miskolc.uni.iit.dist.router.CustomRouter" />
+
+    <int:enricher id="enricher2" input-channel="channel7" output-channel="channel9" request-channel="channel8">
+        <int:property name="date" expression="new java.util.Date(payload.getDate().getTime() + 24*60*60*1000)" />
+    </int:enricher>
+    <bean id="customEnricher2" class="hu.miskolc.uni.iit.dist.integration.CustomEnricher" />
+
+    <int:service-activator input-channel="channel8" ref="customEnricher"/>
+    <int:service-activator input-channel="channel9" output-channel="channel10" ref="shouter" method="shout2"/>
+    <file:outbound-channel-adapter channel="channel10" directory="D:/tmp10" />
+
+    <int:filter id="filter" ref="filterImpl" input-channel="channel11" output-channel="channel12" discard-channel="channel14" />
+    <bean id="filterImpl" class="hu.miskolc.uni.iit.dist.filter.CustomFilter" />
+
+    <int:service-activator input-channel="channel12" output-channel="channel13" ref="shouter" method="shout2"/>
+    <file:outbound-channel-adapter channel="channel13" directory="D:/tmp13" />
+
+    <int:service-activator input-channel="channel14" output-channel="channel15" ref="shouter" method="shout2"/>
+    <file:outbound-channel-adapter channel="channel15" directory="D:/tmp15" />
+
+    <context:component-scan base-package="hu.miskolc.uni.iit.dist"/>
+    <context:annotation-config></context:annotation-config>
+    <mvc:annotation-driven/>
+    <mvc:resources mapping="/api/**"
+                   location="/webresources/"/> <!-- static web resources mapping for REST based controller -->
+    <mvc:resources mapping="/admin/**"
+                   location="/webresources/"/> <!-- static web resources mapping for Form based controller -->
+
+    <bean
+            class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix">
+            <value>/WEB-INF/jsp/</value>
+        </property>
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+    </bean>
+
+    <bean id="userDao" class="hu.miskolc.uni.iit.dist.dao.UserDaoImpl"></bean>
+
+    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <property name="customEditors">
+            <map>
+                <entry key="hu.miskolc.uni.iit.dist.domain.Gender"
+                       value="hu.miskolc.uni.iit.dist.domain.converter.GenderEnumConverter"/>
+                <entry key="hu.miskolc.uni.iit.dist.domain.Qualification"
+                       value="hu.miskolc.uni.iit.dist.domain.converter.QualificationEnumConverter"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="themeSource"
+          class="org.springframework.ui.context.support.ResourceBundleThemeSource">
+        <property name="basenamePrefix" value="theme-"/>
+    </bean>
+
+    <bean id="themeResolver"
+          class="org.springframework.web.servlet.theme.SessionThemeResolver">
+        <property name="defaultThemeName" value="dark"/>
+    </bean>
+
+    <!-- Localization set up -->
+    <bean name="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename">
+            <value>locale/messages</value>
+        </property>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="defaultLocale" value="en"/>
+        <property name="cookieName" value="locale"/>
+        <property name="cookieMaxAge" value="3600"/>
+    </bean>
+
+    <mvc:interceptors>
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+            <property name="paramName" value="locale"/>
+        </bean>
+
+        <bean id="themeChangeInterceptor"
+              class="org.springframework.web.servlet.theme.ThemeChangeInterceptor">
+            <property name="paramName" value="theme"></property>
+        </bean>
+    </mvc:interceptors>
+
 </beans>

@@ -4,11 +4,8 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:int="http://www.springframework.org/schema/integration"
-       xmlns:file="http://www.springframework.org/schema/integration/file"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
-	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
-	http://www.springframework.org/schema/integration http://springframework.org/schema/integration/spring-integration-4.3.xsd
-	http://www.springframework.org/schema/integration/file http://springframework.org/schema/integration/file/spring-integration-file-4.3.xsd ">
+	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
 
     <int:channel id="channel1"/>
     <int:channel id="channel2"/>
@@ -39,7 +36,6 @@
 
     <int:service-activator input-channel="channel4" ref="customEnricher"/>
     <int:service-activator input-channel="channel5" output-channel="channel6" ref="shouter" method="shout2"/>
-    <file:outbound-channel-adapter channel="channel6" directory="D:/tmp6" />
 
     <int:router id="router" input-channel="channel2" ref="customRouter" method="routeDecision" />
     <bean id="customRouter" class="hu.miskolc.uni.iit.dist.router.CustomRouter" />
@@ -51,36 +47,36 @@
 
     <int:service-activator input-channel="channel8" ref="customEnricher"/>
     <int:service-activator input-channel="channel9" output-channel="channel10" ref="shouter" method="shout2"/>
-    <file:outbound-channel-adapter channel="channel10" directory="D:/tmp10" />
 
     <int:filter id="filter" ref="filterImpl" input-channel="channel11" output-channel="channel12" discard-channel="channel14" />
     <bean id="filterImpl" class="hu.miskolc.uni.iit.dist.filter.CustomFilter" />
 
     <int:service-activator input-channel="channel12" output-channel="channel13" ref="shouter" method="shout2"/>
-    <file:outbound-channel-adapter channel="channel13" directory="D:/tmp13" />
 
     <int:service-activator input-channel="channel14" output-channel="channel15" ref="shouter" method="shout2"/>
-    <file:outbound-channel-adapter channel="channel15" directory="D:/tmp15" />
 
     <context:component-scan base-package="hu.miskolc.uni.iit.dist"/>
     <context:annotation-config></context:annotation-config>
     <mvc:annotation-driven/>
-    <mvc:resources mapping="/api/**"
-                   location="/webresources/"/> <!-- static web resources mapping for REST based controller -->
-    <mvc:resources mapping="/admin/**"
-                   location="/webresources/"/> <!-- static web resources mapping for Form based controller -->
+    <mvc:default-servlet-handler />
+    <mvc:resources mapping="/api/**" location="/webresources/"/> <!-- static web resources mapping for REST based controller -->
+    <mvc:resources mapping="/admin/**" location="/webresources/"/> <!-- static web resources mapping for Form based controller -->
+    <mvc:resources mapping="/subject/**" location="/webresources/"/> <!-- static web resources mapping for Form based controller -->
+    <mvc:resources mapping="/assignment/**" location="/webresources/"/> <!-- static web resources mapping for Form based controller -->
 
-    <bean
-            class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix">
-            <value>/WEB-INF/jsp/</value>
-        </property>
-        <property name="suffix">
-            <value>.jsp</value>
-        </property>
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
     </bean>
 
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+
     <bean id="userDao" class="hu.miskolc.uni.iit.dist.dao.UserDaoImpl"></bean>
+
+    <bean id="subjectDao" class="hu.miskolc.uni.iit.dist.dao.SubjectDaoImpl"></bean>
+
+    <bean id="assignmentDao" class="hu.miskolc.uni.iit.dist.dao.AssignmentDaoImpl"></bean>
 
     <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
         <property name="customEditors">

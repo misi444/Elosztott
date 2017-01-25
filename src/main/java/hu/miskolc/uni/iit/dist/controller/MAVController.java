@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import hu.miskolc.uni.iit.dist.gateway.Gateway;
@@ -13,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.GenericMessage;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -59,6 +64,16 @@ public class MAVController
 
 	@Autowired
 	private UserDao userDao;
+
+	@GetMapping(value="/logout")
+	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null){
+			new SecurityContextLogoutHandler().logout(request, response, auth);
+		}
+
+		return "redirect:/login";
+	}
 	
 	@GetMapping(value=SEARCH)
 	public ModelAndView loadStatusPage()
@@ -75,8 +90,6 @@ public class MAVController
 		try
 		{
 			userDao.deleteUser(userId);
-//			org.springframework.messaging.MessageChannel channel = (MessageChannel) context.getBean("channel1");
-//			channel.send(new GenericMessage<SystemMessage>(new SystemMessage("User deleted: " + userId, 1)));
             Gateway gateway = (Gateway) context.getBean("gateway");
             gateway.send(new SystemMessage("User deleted: " + userId, 0)); // toggle between 0-2 for different message save locations
 		} catch (InvalidParameterException e)
@@ -102,7 +115,7 @@ public class MAVController
 
 		if(bindingResult.hasErrors())
 		{
-			List<String> errors = Validator.validate(bindingResult, "userName", "creditBalance", "qualification", "gender", "favouriteColor");
+			List<String> errors = Validator.validate(bindingResult, "userName", "name", "creditBalance", "qualification", "gender", "favouriteColor");
 			modelAndView.addObject("statii", errors);
 			resetForm(modelAndView);
 			return modelAndView;
@@ -117,6 +130,7 @@ public class MAVController
 	private static void resetForm(ModelAndView modelAndView)
 	{
 		final User user = new User();
+		user.setName("");
 		user.setUserName("");
 		user.setCreditBalance("");
 		user.setQualification(Qualification.HIGHSCHOOL);

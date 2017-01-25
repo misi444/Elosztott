@@ -4,6 +4,7 @@
 	</head>
 	
 	<body>
+		<a href="/admin/logout">Logout</a>
 	
 		<c:if test="${pageContext.request.remoteUser != null}">
 			<h2>Welcome : ${pageContext.request.remoteUser}</h2>
@@ -16,6 +17,9 @@
 		<form:form modelAttribute="userRequest" action="${useroriginationURL}" method="POST" >
 			<label>User name:</label>
 			<form:input path="userName"></form:input> <br />
+
+			<label>Name:</label>
+			<form:input path="name"></form:input> <br />
 			
 			<label>Credit:</label>
 			<form:input path="creditBalance"></form:input> <br />

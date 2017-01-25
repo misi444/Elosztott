@@ -7,6 +7,7 @@ import hu.miskolc.uni.iit.dist.exception.InvalidParameterException;
 
 public interface UserDao
 {
+	User findUserById(String id);
 	User findUserByName(String userName);
 	void storeUser(User user);
 	Collection<User> getUsers();

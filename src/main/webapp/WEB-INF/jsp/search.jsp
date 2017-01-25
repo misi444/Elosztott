@@ -3,6 +3,7 @@
 	</head>
 	
 	<body>
+		<a href="/admin/logout">Logout</a>
 		
 		<c:if test="${pageContext.request.remoteUser != null}">
 			<h2>Welcome : ${pageContext.request.remoteUser}</h2>

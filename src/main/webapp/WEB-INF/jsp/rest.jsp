@@ -22,6 +22,7 @@
 	</head>
 	
 	<body data-ng-app="userOrigination" data-ng-controller="regController as vm">
+		<a href="/admin/logout">Logout</a>
 		<div>
 			<div layout="row">
 				<div flex="100">

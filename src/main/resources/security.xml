@@ -6,7 +6,14 @@
 						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
         
 	<http auto-config="true">
+        <intercept-url pattern="/admin/logout*" access="hasAnyRole('ROLE_ADMIN,ROLE_STUDENT,ROLE_TEACHER')" />
 		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/subject/create" access="hasAnyRole('ROLE_ADMIN,ROLE_TEACHER') " />
+        <intercept-url pattern="/assignment/indexteacher**" access="hasAnyRole('ROLE_ADMIN,ROLE_TEACHER')" />
+        <intercept-url pattern="/subject/enrolledstudents**" access="hasAnyRole('ROLE_ADMIN,ROLE_TEACHER')" />
+        <intercept-url pattern="/subject/taughtsubjects**" access="hasAnyRole('ROLE_ADMIN,ROLE_TEACHER')" />
+        <intercept-url pattern="/subject/studiedsubjects**" access="hasAnyRole('ROLE_ADMIN,ROLE_STUDENT')" />
+        <intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMIN,ROLE_STUDENT,ROLE_TEACHER')" />
 	</http>
 	
 	<authentication-manager>
@@ -14,6 +21,10 @@
 		    <user-service>
 			<user name="misi444" password="123456" authorities="ROLE_USER" />
 			<user name="admin" password="123456" authorities="ROLE_ADMIN" />
+            <user name="student1" password="student1" authorities="ROLE_STUDENT" />
+            <user name="student2" password="student2" authorities="ROLE_STUDENT" />
+            <user name="teacher1" password="teacher1" authorities="ROLE_TEACHER" />
+            <user name="teacher2" password="teacher2" authorities="ROLE_TEACHER" />
 		    </user-service>
 		</authentication-provider>
 	</authentication-manager>

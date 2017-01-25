@@ -17,8 +17,12 @@ public class User
 	private String userId;
 	
 	@NotBlank
-	@Length(min = 1, max = 10)
+	@Length(min = 1, max = 20)
 	private String userName;
+
+	@NotBlank
+	@Length(min = 1, max = 50)
+	private String name;
 	
 	@NotEmpty
 	@NotBlank
@@ -47,6 +51,17 @@ public class User
 	public String getUserName()
 	{
 		return userName;
+	}
+
+	public User setName(String name)
+	{
+		this.name = name;
+		return this;
+	}
+
+	public String getName()
+	{
+		return name;
 	}
 
 	public User setUserName(String userName)
